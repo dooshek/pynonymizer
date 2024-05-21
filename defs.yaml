@@ -1,0 +1,85 @@
+faker:
+  locales:
+    - pl_PL
+tables:
+  customers:
+    email: free_email
+    phone_number: phone_number
+    first_name: first_name
+    last_name: last_name
+    password: password
+  customer_addresses:
+    name: name
+    postal_code: postalcode
+    city: city
+    street: street_name
+    house_number: building_number
+    nip: nip
+    building_name: building_number
+    company_name: company
+    first_name: first_name
+    last_name: last_name
+    phone_number: phone_number
+    client_delivery_notes: text
+    bok_delivery_notes: text
+  employees:
+    name: user_name
+    email: company_email
+    password: password
+  discounts:
+    name: word
+  discount_codes:
+    name: word
+    code: bothify
+  distribution_centers:
+    email: email
+    contact_person: name
+    phone_number: phone_number
+  distributors:
+    name: company
+    city: city
+    street: street_name
+    nip: nip
+    regon: regon
+    krs: ssn
+    account_number: iban
+    contact_person: name
+    email: email
+    phone_number: phone_number
+    postal_code: postalcode
+  newsletter_recipients:
+    email: email
+  producers:
+    contact_person: name
+    email: email
+    phone_number: phone_number
+  sale_order_invoices:
+    invoice_number: bothify
+    view_url: url
+  sale_order_receipts:
+    receipt_token: md5
+    document_url: url
+    ereceipt_url: url
+  sale_order_transactions:
+    link: url
+  sale_orders:
+    delivery_address_name: name
+    delivery_address_city: city
+    delivery_address_street: street_name
+    delivery_address_building_name: building_number
+    invoice_nip: company_vat
+    invoice_name: company
+    invoice_city: city
+    invoice_street: street_name
+    invoice_house_number: building_number
+    delivery_address_phone_number: phone_number
+    delivery_address_bok_notes: text
+    delivery_address_client_notes: text
+    delivery_address_postal_code: postalcode
+    invoice_postal_code: postalcode
+  password_reset_tokens:
+    email: email
+  sellers:
+    contact_person: name
+    email: email
+    phone_number: phone_number

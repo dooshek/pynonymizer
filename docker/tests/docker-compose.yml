@@ -1,0 +1,32 @@
+services:
+    db-src:
+        image: postgres:12
+        ports:
+            - 6000:5432
+        volumes:
+            - db-data-src:/var/lib/postgresql/data
+            - ~/tmp/dump:/tmp/dump
+        environment:
+            - PGUSER=mamyito
+            - POSTGRES_DB=mamyito-production
+            - POSTGRES_USER=mamyito
+            - POSTGRES_ROOT_PASSWORD=root
+            - POSTGRES_PASSWORD=mamyito
+            - POSTGRES_HOST_AUTH_METHOD=trust
+    db-dst:
+        image: postgres:16
+        ports:
+            - 6001:5432
+        volumes:
+            - db-data-dst:/var/lib/postgresql/data
+            - ~/tmp/dump:/tmp/dump
+        environment:
+            - PGUSER=mamyito
+            - POSTGRES_DB=mamyito-beta
+            - POSTGRES_USER=mamyito
+            - POSTGRES_ROOT_PASSWORD=root
+            - POSTGRES_PASSWORD=mamyito
+            - POSTGRES_HOST_AUTH_METHOD=trust
+volumes:
+    db-data-src:
+    db-data-dst:
