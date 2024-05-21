@@ -38,7 +38,7 @@ Prepare YAML Configuration Files:
 Use the following command to run the script:
 
 ```bash
-python anonymize.py --host <db_host> --port <db_port> --user <db_user> --name <db_name> --password <db_password> [--defs defs.yaml] [--ignores ignores.yaml] [--log-level info]
+python anonymize.py --host <db_host> --port <db_port> --user <db_user> --name <db_name> --password <db_password> [--defs defs.yaml] [--ignores ignores.yaml] [--log-level info] [--threads 1]
 ```
 
 Replace <db_host>, <db_port>, <db_user>, <db_name>, and <db_password> with your database connection details.
@@ -80,6 +80,8 @@ ignore_ids:
 `--ignores`: Path to the ignore list YAML file. Default is ignores.yaml.
 
 `--log-level`: Logging level (debug, info, warning, error, critical). Default is info.
+
+`--threads`: Number of threads to use for parallel processing. Default is 1.
 
 ## Final note
 Ensure that the YAML configuration files accurately reflect your database schema.
