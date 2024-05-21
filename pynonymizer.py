@@ -4,6 +4,7 @@ from enum import unique
 import logging
 import time
 import faker
+import psycopg2.extras
 import yaml
 import psycopg2
 from psycopg2 import extras
@@ -49,6 +50,7 @@ def process_table(table, fields, ignored_ids):
     )
     conn.autocommit = False
     cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cursor_select = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     
     def get_unique_constraints(table_name):
         cursor.execute(f"""
@@ -94,16 +96,23 @@ def process_table(table, fields, ignored_ids):
         cursor.close()
         conn.close()
         return
-    
-    cursor.execute(f"SELECT {pk}, {', '.join(fields.keys())} FROM {table}")
-    records = cursor.fetchall()
-    logging.info(f"Processing table {table}, total records: {len(records)}")
+
+    cursor.execute(f"SELECT COUNT(*) FROM {table}")
+    total_count = cursor.fetchone()[0]
+    logging.info(f"Processing table {table} with {total_count} records...")
     table_start_time = time.time()
     updated_count = 0
     faker_cache = {}
     
-    for record in records:
-
+    cursor_select.execute(f"SELECT {pk}, {', '.join(fields.keys())} FROM {table}")
+    while True:
+        try:
+            record = cursor_select.fetchone()
+            if record is None:
+                break
+        except psycopg2.ProgrammingError:
+            break
+            
         if record[pk] in ignored_ids:
             logging.warning(f"Skipping update for {table} with {pk} = {record[pk]} due to ignore list.")
             continue
