@@ -80,14 +80,18 @@ def process_table(table, fields, ignored_ids):
             return None
         return result[0]
 
-    def update_record(table, pk, pk_value, field, value):
+    def update_record(table, pk, pk_value, updated_values: dict):
         try:
-            cursor.execute(f"UPDATE {table} SET {field} = %s WHERE {pk} = %s", (value, pk_value))
+            updates = [f"{field} = %s" for field in updated_values.keys()]
+            values = list(updated_values.values())
+            values.append(pk_value)
+            updates_str = ', '.join(updates)
+            cursor.execute(f"UPDATE {table} SET {updates_str} WHERE {pk} = %s", values)
             return True
         except UniqueViolation as e:
-            logging.warning(f"Duplicate key value violation for {field} with value {value}, {pk}={pk_value}. Regenerating...")
+            logging.warning(f"Duplicate key value violation. Regenerating...")
             return False
-    
+        
     pk = get_primary_key(table)
     unique_fields = get_unique_constraints(table)
     
@@ -117,6 +121,7 @@ def process_table(table, fields, ignored_ids):
             logging.warning(f"Skipping update for {table} with {pk} = {record[pk]} due to ignore list.")
             continue
 
+        updated_values = {}
         for field, faker_method in fields.items():
             if not hasattr(fake, faker_method):
                 logging.error(f'Faker does not support the method: {faker_method}')
@@ -130,18 +135,14 @@ def process_table(table, fields, ignored_ids):
                     value = getattr(fake, faker_method)()
 
             faker_cache[value] = True
+            updated_values[field] = value
 
-            success = False
-            while not success:
-                try:
-                    success = update_record(table, pk, record[pk], field, value)
-                    if success:
-                        updated_count += 1
-                    else:
-                        value = getattr(fake, faker_method)()
-                except psycopg2.Error as e:
-                    logging.error(f"Error updating record: {e}")
-                    conn.rollback()
+        try:
+            update_record(table, pk, record[pk], updated_values), 
+            updated_count += 1
+        except psycopg2.Error as e:
+            logging.error(f"Error updating record: {e}")
+            conn.rollback()
                                             
     # Commit the transaction
     conn.commit()
