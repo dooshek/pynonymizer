@@ -65,12 +65,19 @@ ignore_ids:
 ## Command-line Arguments
 
 `--host`: Database host.
+
 `--port`: Database port.
+
 `--user`: Database user.
+
 `--name`: Database name.
+
 `--password`: Database password.
+
 `--defs`: Path to the table definitions YAML file. Default is defs.yaml.
+
 `--ignores`: Path to the ignore list YAML file. Default is ignores.yaml.
+
 `--log-level`: Logging level (debug, info, warning, error, critical). Default is info.
 
 ## Final note
