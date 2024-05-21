@@ -11,6 +11,7 @@ from psycopg2 import extras
 from sys import exit
 from faker import Faker
 from psycopg2.errors import UniqueViolation
+from concurrent.futures import ThreadPoolExecutor
 
 # Setup argument parser
 parser = argparse.ArgumentParser()
@@ -22,6 +23,7 @@ parser.add_argument("--password", required=True)
 parser.add_argument("--defs", default="defs.yaml")
 parser.add_argument("--ignores", default="ignores.yaml")
 parser.add_argument("--log-level", default="info", choices=["debug", "info", "warning", "error", "critical"])
+parser.add_argument("--threads", type=int, default=1)
 
 args = parser.parse_args()
 
@@ -153,8 +155,9 @@ def process_table(table, fields, ignored_ids):
 def main():
     start_time = time.time()
 
-    for table, fields in defs["tables"].items():
-        process_table(table, fields, ignored_ids)
+    with ThreadPoolExecutor(max_workers=args.threads) as executor:
+        for table, fields in defs["tables"].items():
+            executor.submit(process_table, table, fields, ignored_ids)
 
     logging.info(f"Total time for script execution: {time.time() - start_time:.2f} seconds")
     
