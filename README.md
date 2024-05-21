@@ -53,9 +53,10 @@ tables:
   users:
     email: "email"
     name: "name"
-
+```
 
 `ignores.yaml`
+
 ```yaml
 ignore_ids:
   - 1
