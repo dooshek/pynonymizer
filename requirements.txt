@@ -1,2 +1,3 @@
 Faker
 psycopg2
+PyYAML
