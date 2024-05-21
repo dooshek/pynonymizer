@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ## Usage
 Prepare YAML Configuration Files:
 
-`defs.yaml`: Define the tables and fields you want to anonymize, along with the Faker methods to use for generating the fake data. Optionally, configure Faker locales.
+`defs.yaml`: Define the tables and fields you want to anonymize, along with the Faker methods to use for generating the fake data. Optionally, configure [Faker locales](https://faker.readthedocs.io/en/master/locales.html).
 
 `ignores.yaml`: Specify any record IDs you wish to ignore and not anonymize.
 
