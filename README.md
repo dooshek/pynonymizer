@@ -1,5 +1,5 @@
 
-# PyNonimizer - PostgreSQL Database Anonymizer
+# PyNonymizer - PostgreSQL Database Anonymizer
 
 This Python script is designed to anonymize specified fields in a PostgreSQL database using Faker to generate fake data. It is particularly useful in environments where sensitive data needs to be masked before sharing databases or datasets with third-party developers or for testing purposes.
 
