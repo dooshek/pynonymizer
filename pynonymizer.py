@@ -1,13 +1,10 @@
 #!/bin/env python3
 import argparse
-from enum import unique
 import logging
 import time
-import faker
 import psycopg2.extras
 import yaml
 import psycopg2
-from psycopg2 import extras
 from sys import exit
 from faker import Faker
 from psycopg2.errors import UniqueViolation
